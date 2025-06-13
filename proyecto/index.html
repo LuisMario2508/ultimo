@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tigres UANL</title>
+  <!-- Bootstrap y fuentes -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
+  <!-- Estilos personalizados -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-image: url(imagenes/campeonato.jpeg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+    }
+    .navbar {
+      background-color: #002b7f;
+    }
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: #fcd116 !important;
+      font-weight: 500;
+    }
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .jumbotron {
+      background: linear-gradient(135deg, #fcd116, #4d6ec9);
+      padding: 50px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+    .jumbotron h1 {
+      color: #002b7f;
+      font-weight: 700;
+      text-transform: uppercase; 
+    }
+    .card {
+      border-radius: 15px;
+      border: 2px solid #002b7f;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    .card-header {
+      background-color: #002b7f;
+      color: #fcd116;
+      text-align: center;
+      font-weight: bold;
+    }
+    .card-body {
+      background-color: #fffde7;
+      text-align: center;
+    }
+    .card-title {
+      color: #002b7f;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .footer-message {
+      background-color: #d4b630;
+      color: #002b7f;
+      font-weight: bold;
+      font-size: 1.1rem;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 40px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .navbar-toggler-icon {
+      background-color: #fcd116;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="imagenes/tigres logo.png" alt="Tigres Logo">
+        Tigres UANL
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" data-toggle="dropdown">Unidad 1</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="tigres1.php">jugadores</a>
+              <a class="dropdown-item" href="nose.php">Práctica dos</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Encabezado -->
+  <div class="container my-5">
+    <div class="jumbotron">
+      <h1 class="display-4">Tigres de la UANL</h1>
+      <img src="imagenes/aniversario 65.avif" alt="" style="width: 50%; max-width: 300px;">
+      <hr class="my-4" />
+      <p class="lead">Orgullo del norte, pasión incomparable.</p>
+    </div>
+    <!-- Tarjetas -->
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card mb-4">
+          <div class="card-header">Práctica 1</div>
+          <div class="card-body">
+            <h5 class="card-title">El más grande de la década</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card mb-4">
+          <div class="card-header">Práctica 2</div>
+          <div class="card-body">
+            <h5 class="card-title">Gignac, el mejor extranjero</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card mb-4">
+          <div class="card-header">Práctica 3</div>
+          <div class="card-body">
+            <h5 class="card-title">El más grande del norte</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Mensaje -->
+    <div class="footer-message">
+      ¡Bienvenido aficionado Tigre! 🐯💙💛
+    </div>
+  </div>
+</body>
+</html>

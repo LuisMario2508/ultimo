@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Películas API</title>
+    <style>
+    :root {
+        --background-gradient: linear-gradient(135deg, #193c75, #c2e9fb);
+        --glass-color: rgba(255, 255, 255, 0.2);
+        --text-color: #ffffff;
+        --highlight-color: #ffcc70;
+        --green: #00ff95;
+        --orange: #ffa500;
+        --red: #ff4d4d;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--background-gradient);
+        color: var(--text-color);
+        min-height: 100vh;
+    }
+
+    header {
+        display: flex;
+        justify-content:flex-end;
+        padding: 30px 20px;
+        backdrop-filter: blur(10px);
+        background-color: rgba(0, 0, 0, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .search {
+        width: 100%;
+        max-width: 600px;
+        padding: 12px 20px;
+        border-radius: 30px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+    }
+
+    #main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+
+    .movie {
+        background: var(--glass-color);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+        width: 280px;
+        backdrop-filter: blur(8px);
+    }
+
+    .movie:hover {
+        transform: scale(1.05);
+    }
+
+    .movie img {
+        width: 100%;
+        display: block;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .movie-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        font-weight: bold;
+    }
+
+    .movie-info h3 {
+        margin: 0;
+        font-size: 18px;
+        color: var(--highlight-color);
+    }
+
+    .movie-info span {
+        font-size: 16px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .overview {
+        padding: 15px;
+        font-size: 14px;
+        color: #f0f0f0;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .overview h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+
+    .green {
+        color: var(--green);
+    }
+
+    .orange {
+        color: var(--orange);
+    }
+
+    .red {
+        color: var(--red);
+    }
+</style>
+    </style>
+</head>
+<body>
+
+    <header>
+        <input type="text" id="search" class="search" placeholder="Busca una película...">
+    </header>
+
+    <main id="main"></main>
+
+    <script>
+        const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1';
+        const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+        const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query=';
+
+        const main = document.getElementById('main');
+        const search = document.getElementById('search');
+
+        // Mostrar películas populares al cargar
+        getMovies(API_URL);
+
+        async function getMovies(url) {
+            const res = await fetch(url);
+            const data = await res.json();
+            showMovies(data.results);
+        }
+
+        function showMovies(movies) {
+            main.innerHTML = '';
+
+            movies.forEach((movie) => {
+                const { title, poster_path, vote_average, overview } = movie;
+
+                const movieEl = document.createElement('div');
+                movieEl.classList.add('movie');
+
+                movieEl.innerHTML = `
+                    <img src="${IMG_PATH + poster_path}" alt="${title}">
+                    <div class="movie-info">
+                        <h3>${title}</h3>
+                        <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                    </div>
+                    <div class="overview">
+                        <h3>Resumen</h3>
+                        ${overview}
+                    </div>
+                `;
+
+                main.appendChild(movieEl);
+            });
+        }
+
+        function getClassByRate(vote) {
+            if (vote >= 8) {
+                return 'green';
+            } else if (vote >= 5) {
+                return 'orange';
+            } else {
+                return 'red';
+            }
+        }
+
+        // Buscar películas
+        search.addEventListener('input', (e) => {
+            const searchTerm = e.target.value;
+
+            if (searchTerm && searchTerm.trim() !== '') {
+                getMovies(SEARCH_API + encodeURIComponent(searchTerm));
+            } else {
+                getMovies(API_URL);
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <link href="https://fonts.cdnfonts.com/css/break-love" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/jomolhari-2" rel="stylesheet">
+
+  <title>FINAL</title>
+</head>
+<body>
+
+<nav class="navbar navbar-default" style="background: linear-gradient(to right, #ffffff, #f3f3f3); margin-bottom: 0; border-bottom: 1px solid #ccc;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/nueva carpeta/index.html" style="color: #0b1e8a; font-weight: bold;">Inicio</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #000; font-weight: normal;">Unidad 1</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">practica uno</a></li>
+          <li><a href="#">practica dos</a></li>
+          <li><a href="#">practica tres</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #000; font-weight: normal;">Unidad 2</a>
+        <ul class="dropdown-menu">
+          <li><a href="#">practica cuatro</a></li>
+          <li><a href="#">practica cinco</a></li>
+          <li><a href="pokedex.html">practica seis</a></li>
+        </ul>
+      </li>
+      <li class="dropdown active">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #000; background-color: #e0e0e0; font-weight: normal;">Unidad 3</a>
+        <ul class="dropdown-menu">
+          <li><a href="dragonball.html">practica siete</a></li>
+          <li><a href="API.html">practica ocho</a></li>
+          <li><a href="prueba2.html">practica nueve</a></li>
+          <li><a href="#">practica diez</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        :root{
+            --primary-color: #05178f;
+            --secondary-color: #b71111;
+            --terceary-color: #3a5a40;
+        }
+        body{
+            background-color: var(--primary-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        header{
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+            background-color: var(--secondary-color);
+        }
+        .search{
+            background-color: rgb(53, 23, 144);
+            border: 5px solid var(--terceary-color);
+            border-radius: 50px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 15px;
+            padding: 10px 16px;
+            color: #ffffff ;
+        }
+        .search::placeholder{
+            color: var(--terceary-color);
+        }
+        .search:focus{
+            outline: none;
+            background-color: var(--primary-color);
+        }
+        main{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .movie{
+            width: 300px;
+            margin: 15px;
+            background-color: var(--secondary-color);
+            box-shadow: 0 5px 5px black;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        .movie img{
+            width: 100%;
+        }
+        .movie-info{
+            color: var(--terceary-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            padding: 8px 15px 15px;
+            letter-spacing: 8px;
+        }
+        .movie-info h1{
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .movie-info span{
+            background-color: var(--primary-color);
+            padding:5px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .movie-info span.blue{
+            color: blue;
+        }
+        .movie-info span.orange{
+            color: orange;
+        }
+        .movie-info span.red{
+            color: red;
+        }
+        .overview {
+            background-color: #fff;
+            padding: 32px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            max-height: 100%;
+            transform: translateY(101%);
+            overflow-y: auto;
+            transition: transform 0.3s ease-in;
+        }
+        .movie:hover .overview{
+            transform: translateY(0);
+        }
+    </style>
+
+    <header>
+        <form id="form">
+            <input type="text" id="search" class="search" placeholder="Busca tu personaje">
+        </form>
+    </header>
+    <main id="main"></main>
+
+    <script>
+        const API_RICK = 'https://rickandmortyapi.com/api/character';
+        const API_HP = 'https://hp-api.onrender.com/api/characters';
+
+        const main = document.getElementById('main');
+        const form = document.getElementById('form');
+        const search = document.getElementById('search');
+
+        let allCharacters = [];
+
+        getAllCharacters();
+
+        async function getAllCharacters() {
+            const [rmRes, hpRes] = await Promise.all([
+                fetch(API_RICK).then(res => res.json()),
+                fetch(API_HP).then(res => res.json())
+            ]);
+
+            const rickChars = rmRes.results || [];
+            const hpChars = hpRes || [];
+
+            allCharacters = [...rickChars, ...hpChars];
+            showCharacters(allCharacters);
+        }
+
+        function showCharacters(characters) {
+            main.innerHTML = '';
+            characters.forEach((char) => {
+                let name = char.name || 'Desconocido';
+                let image = char.image || ''; 
+                let species = char.species || '';
+                let gender = char.gender || '';
+                let actor = char.actor || 'Desconocido';
+                let house = char.house || '';
+                let status = char.status || (char.alive === false ? 'Deceased' : 'Alive');
+
+                const charElement = document.createElement('div');
+                charElement.classList.add('movie');
+                charElement.innerHTML = `
+                    <img src="${image}" alt="${name}">
+                    <div class="movie-info">
+                        <h1>${name}</h1>
+                        <span>${species}</span>
+                    </div>
+                    <div class="overview">
+                        <p><strong>Casa:</strong> ${house}</p>
+                        <p><strong>Actor:</strong> ${actor}</p>
+                        <p><strong>Género:</strong> ${gender}</p>
+                        <p><strong>Estado:</strong> ${status}</p>
+                    </div>
+                `;
+                main.appendChild(charElement);
+            });
+        }
+
+       form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchTerm = search.value.toLowerCase(); 
+    if (searchTerm && searchTerm !== '') {
+        getAllCharacters(`${API_RICK}?name=${searchTerm}`);
+        search.value = '';
+    } else {
+        window.location.reload();
+    }
+});
+
+    </script>
+</body>
+</html>
